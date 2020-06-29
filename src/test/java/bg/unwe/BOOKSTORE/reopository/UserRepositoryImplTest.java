@@ -10,7 +10,8 @@ import org.testng.annotations.Test;
 
 import java.util.List;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 
 public class UserRepositoryImplTest
 {
@@ -39,6 +40,10 @@ public class UserRepositoryImplTest
   @Test
   public void testGetUser()
   {
+    Integer id = 1111;
+    User user = userRepository.getUser (id);
+    assertNotNull (user);
+
   }
 
   @Test
@@ -55,7 +60,8 @@ public class UserRepositoryImplTest
   @Test
   public void testDeleteUser()
   {
-
+    String username ="user";
+    userRepository.deleteUser (username);
   }
 
   @Test
@@ -68,10 +74,16 @@ public class UserRepositoryImplTest
   @Test
   public void testTestGetUser()
   {
+    String username = "admin";
+    User user = userRepository.getUser (username);
+    assertNotNull (user);
   }
 
   @Test
   public void testUpdateUser()
   {
+    User user = userRepository.getUser (170);
+    user.setRole (User.Role.ADMIN);
+    userRepository.updateUser (user);
   }
 }
