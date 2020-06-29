@@ -10,8 +10,8 @@ import org.testng.annotations.Test;
 
 import java.util.List;
 
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
 
 public class UserRepositoryImplTest
 {
@@ -68,7 +68,7 @@ public class UserRepositoryImplTest
   public void testGetUsers()
   {
     List<User> list = userRepository.getUsers ();
-    assertTrue (list.isEmpty ());
+    assertFalse (list.isEmpty ());
   }
 
   @Test
