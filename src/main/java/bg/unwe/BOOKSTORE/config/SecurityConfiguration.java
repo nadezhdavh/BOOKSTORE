@@ -15,7 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.sql.DataSource;
 
-import static bg.unwe.BOOKSTORE.model.User.*;
+import static bg.unwe.BOOKSTORE.model.User.Role;
 
 @Configuration
 @EnableAutoConfiguration
@@ -30,6 +30,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter
   {
     http
         .authorizeRequests ()
+        .antMatchers (HttpMethod.GET, "/api/v1/books").hasAnyAuthority (User.Role.USER.toString (),Role.ADMIN.toString ())
         .antMatchers (HttpMethod.GET, "/api/v1/books/**").hasAnyAuthority (User.Role.USER.toString (),Role.ADMIN.toString ())
         .antMatchers (HttpMethod.POST, "/api/v1/books/new").hasAuthority (User.Role.ADMIN.toString ())
         .antMatchers (HttpMethod.POST, "/api/v1/books/{/[^0-9]}/price").hasAuthority (User.Role.ADMIN.toString ())
