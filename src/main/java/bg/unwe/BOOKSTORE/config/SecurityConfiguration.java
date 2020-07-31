@@ -12,6 +12,13 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import javax.sql.DataSource;
 
@@ -20,6 +27,7 @@ import static bg.unwe.BOOKSTORE.model.User.Role;
 @Configuration
 @EnableAutoConfiguration
 @EnableWebSecurity
+@EnableSwagger2
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter
 {
   @Autowired
@@ -69,6 +77,21 @@ protected void configure(AuthenticationManagerBuilder auth) throws Exception {
   public PasswordEncoder passwordEncoder()
   {
     return new BCryptPasswordEncoder ();
+  }
+
+  @Bean
+  public Docket api(){
+    return new Docket(DocumentationType.SWAGGER_2)
+        .select()
+        .apis(RequestHandlerSelectors.any())
+        .paths(PathSelectors.ant("/api/v1/**"))
+        .build().apiInfo(apiInfo());
+  }
+
+  private ApiInfo apiInfo() {
+    return new ApiInfoBuilder()
+        .title("BOOKSTORE PROJECT")
+        .build();
   }
 
 }
